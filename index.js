@@ -1,26 +1,33 @@
-require("dotenv").config();
-const Discord = require("discord.js");
-const client = new discord.Client();
+let Discord = require("discord.js")
+let client = new Discord.Client()
 
-client.commands = new Discord.Collection();
-
-fs.readdir(__dirname + "/events/", (err, files) => {
-  if (err) return console.error(err);
-  files.forEach((file) => {
-    const event = require(__dirname + `/events/${file}`);
-    let eventName = file.split(".")[0];
-    client.on(eventName, event.bind(null, client));
-  });
-});
-
-const commandFiles = fs
-  .readdirSync("./commands")
-  .filter((file) => file.endsWith(".js"));
-
-for (const file of commandFiles) {
-  const command = require(`./commands/${file}`);
-  client.commands.set(command.name, command);
-  console.log("[Command] Loaded", command.name);
+client.on("ready", () => {
+  client.user.setPresence({ activity: { name: "jsem jen BOT" }})
+})
+client.on("message", message=> {
+  if (message.content === "ping")
+    message.channel.send("pong")
+  
+if(message.content === "bohous") {
+  message.channel.send("je best")
 }
+  
+  
+if(message.content === "brmbrmbrm") {
+  message.channel.send("jede auto brm brm brm")
+} 
+  
+  
+  
+  
+client.on("guildMemberAdd", member => {
+  if(member.guild.id === "789454939100282900") {
+    client.channels.cache.get("810299203690954772").send(`Welcome ${member}!`)
+  }
+})
+  
+  
+  
+})
+client.login("ODE3NjcxNDc1ODM3NTM0MjQw.YEM55w.GFbwItaelKAn1OLUuJs5-UPubCk")
 
-client.login(process.env.DISCORD_TOKEN);
